@@ -9,7 +9,7 @@ public class Controls : MonoBehaviour {
 	public float horizontalCheck;
 	public float verticalCheck;
 
-	public bool isFacingLeft = false;
+	public bool isFacingRight;
 
 	void FixedUpdate () {
 		//up
@@ -44,32 +44,18 @@ public class Controls : MonoBehaviour {
 
 	Vector3 mousePos;
 	public Transform gun;
-	public Transform firePoint;
 	Vector3 objectPos;
 	float angle;
 
 	void Update(){
-		
 		mousePos = Input.mousePosition;
 
 		objectPos = Camera.main.WorldToScreenPoint (transform.position);
 		mousePos.x = mousePos.x - objectPos.x;
 		mousePos.y = mousePos.y - objectPos.y;
 
-		if ((angle >= 90 || angle <= -90) ) {
-			SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer> ();
-			foreach (SpriteRenderer sr in renderers)
-				sr.flipX = true;
-		
-			isFacingLeft = true;
-
-		}
-
-		if(isFacingLeft == true)
-			mousePos *= -1;
-
 		angle = Mathf.Atan2 (mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 		gun.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
-		Debug.Log("angle: " + angle );
+
 	}
 }
