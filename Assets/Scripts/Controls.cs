@@ -11,6 +11,12 @@ public class Controls : MonoBehaviour {
 
 	public bool isFacingLeft = false;
 
+	SpriteRenderer[] renderers;
+
+	void Awake(){
+		renderers = GetComponentsInChildren<SpriteRenderer>();
+	}
+
 	void FixedUpdate () {
 		//up
 		if (Input.GetKey (KeyCode.W)) {
@@ -43,7 +49,7 @@ public class Controls : MonoBehaviour {
 	}
 
 	Vector3 mousePos;
-	public Transform gun;
+	public GameObject gun;
 	public Transform firePoint;
 	Vector3 objectPos;
 	float angle;
@@ -56,17 +62,27 @@ public class Controls : MonoBehaviour {
 		mousePos.x = mousePos.x - objectPos.x;
 		mousePos.y = mousePos.y - objectPos.y;
 
-		if ((angle >= 90 || angle <= -90) ) {
-			SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer> ();
+		if ((angle >= 90 || angle <= -90)) {
 			foreach (SpriteRenderer sr in renderers)
 				sr.flipX = true;
 		
 			isFacingLeft = true;
 
-		}
+			Vector3 scale = gun.transform.localScale;
+			scale.x = -1;
+			scale.y = -1;
+			gun.transform.localScale = scale;
 
-		if(isFacingLeft == true)
-			mousePos *= -1;
+		} else {
+			foreach (SpriteRenderer sr in renderers)
+				sr.flipX = false;
+
+			isFacingLeft = false;
+			Vector3 scale = gun.transform.localScale;
+			scale.x = 1;
+			scale.y = 1;
+			gun.transform.localScale = scale;
+		}
 
 		angle = Mathf.Atan2 (mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 		gun.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
