@@ -46,7 +46,7 @@ public class Inventory : MonoBehaviour {
 
 						ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
 
-						Debug.Log ("data.amount: " + data.amount);
+						//Debug.Log ("data.amount: " + data.amount);
 
 						if (data.amount < item.MaxStackSize) {
 							data.amount++;
