@@ -86,6 +86,6 @@ public class Controls : MonoBehaviour {
 
 		angle = Mathf.Atan2 (mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 		gun.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
-		Debug.Log("angle: " + angle );
+		//Debug.Log("angle: " + angle );
 	}
 }

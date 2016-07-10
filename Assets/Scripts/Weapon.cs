@@ -10,7 +10,6 @@ public class Weapon : MonoBehaviour {
 	public Transform BulletTrailPrefab;
 
 	float timeToFire = 0;
-	float timeToEffect = 0;
 	Transform firePoint;
 
 
