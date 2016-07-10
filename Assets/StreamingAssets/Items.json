@@ -4,13 +4,15 @@
 		"title": "test1",
 		"value": 6,
 		"description": "test1test1",
-		"stackable": false
+		"maxStackSize": 64,
+		"slug": "test_1"
 	},
 	{
 		"id": 1,
 		"title": "test2",
 		"value": 12,
 		"description": "test2test2",
-		"stackable": true
+		"maxStackSize": 1,
+		"slug": "test_2"
 	}
 ]
