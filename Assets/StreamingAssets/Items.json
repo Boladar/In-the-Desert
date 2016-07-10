@@ -1,0 +1,16 @@
+[
+	{
+		"id": 0,
+		"title": "test1",
+		"value": 6,
+		"description": "test1test1",
+		"stackable": false
+	},
+	{
+		"id": 1,
+		"title": "test2",
+		"value": 12,
+		"description": "test2test2",
+		"stackable": true
+	}
+]
