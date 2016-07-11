@@ -32,49 +32,70 @@ public class Inventory : MonoBehaviour {
 			slots [i].transform.SetParent (slotPanel.transform);
 		}
 
-		AddItem (0,10);
+		AddItem (0,15);
 		AddItem (1, 3);
 
 	}
 
-	public void AddItem(int id, int quantity){
+	public void ReserveItemSpace(int id){
+		
 		Item item = database.GetItemByID(id);
-		for(int q = 0; q < quantity ; q++){
-			if (item.MaxStackSize > 1 && CheckForItemInInventory(item)) {
-				for (int i = 0; i < items.Count; i++) {
-					if (items [i].ID == item.ID) {
+		for (int i = 0; i < items.Count; i++) {
+			if (items [i].ID == -1) {
 
-						ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
+				items [i] = item;
+				GameObject itemObj = Instantiate (inventoryItem);
 
-						//Debug.Log ("data.amount: " + data.amount);
+				itemObj.GetComponent<ItemData> ().item = item;
+				itemObj.GetComponent<ItemData> ().slot = i;
 
-						if (data.amount < item.MaxStackSize) {
-							data.amount++;
-							data.transform.GetChild (0).GetComponent<Text> ().text = data.amount.ToString ();
-							continue;
-						}
-					}
-						
-				}
-			}
-				for (int i = 0; i < items.Count; i++) {
-					if (items [i].ID == -1) {
+				itemObj.transform.SetParent (slots [i].transform);
+				itemObj.transform.position = Vector2.zero;
 
-						items [i] = item;
-						GameObject itemObj = Instantiate (inventoryItem);
-
-						itemObj.GetComponent<ItemData> ().item = item;
-						itemObj.GetComponent<ItemData> ().slot = i;
-
-						itemObj.transform.SetParent (slots [i].transform);
-						itemObj.transform.position = Vector2.zero;
-
-						itemObj.GetComponent<Image> ().sprite = item.Sprite;
-						itemObj.name = item.Title;
-						break;
-				}
+				itemObj.GetComponent<Image> ().sprite = item.Sprite;
+				itemObj.name = item.Title;
+				return;
 			}
 		}
+	}
+
+	public void AddItem(int id, int quantity){
+		Item item = database.GetItemByID(id);
+
+		if (!CheckForItemInInventory(item)) {
+			Debug.Log ("item is not in inventory");
+			ReserveItemSpace (id);
+		}
+		ItemData data = GetNotFullItemDataFromID (id);
+		if (item.MaxStackSize > 1) {
+			for (int j = 0; j <= quantity; j++) {
+
+				if (data.amount < item.MaxStackSize) {
+					data.amount += 1;
+					data.transform.GetChild (0).GetComponent<Text> ().text = data.amount.ToString ();
+				} else {
+					ReserveItemSpace (id);
+					data = GetNotFullItemDataFromID (id);
+				}
+			}
+		}else {
+			for (int i = 1; i < quantity; i++) {
+				ReserveItemSpace (id);
+			}
+		}
+	}
+
+	public ItemData GetNotFullItemDataFromID(int id){
+		//ItemData data;
+		for (int i = 0; i < items.Count; i++) {
+			Debug.Log ("get");
+			if (items [i].ID == id) {
+				ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
+				if (data.amount < items [i].MaxStackSize)
+					return data;
+			}
+		}
+		return null;
 	}
 
 	bool CheckForItemInInventory(Item item){
