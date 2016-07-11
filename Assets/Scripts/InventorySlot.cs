@@ -19,12 +19,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
 
 		if (inv.items [slotID].ID == -1) {
-
-			inv.items [droppedItem.slot] = new Item ();
+			
+			inv.items [droppedItem.slotID] = new Item ();
 			inv.items [slotID] = droppedItem.item;
-			droppedItem.slot = slotID;
+			droppedItem.slotID = slotID;
 
-		}else if (droppedItem.slot != slotID) {
+		}else if (droppedItem.slotID != slotID) {
 
 			Transform item = this.transform.GetChild (0);
 
@@ -32,17 +32,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				&& droppedItem.item.MaxStackSize > 1
 				&& item.GetComponent<ItemData> ().amount + droppedItem.amount <= droppedItem.item.MaxStackSize ) {
 
-				Debug.Log ("item.amount: " + item.GetComponent<ItemData> ().amount + "droppeditem.amount" + droppedItem.amount);
-
 				item.GetComponent<ItemData> ().amount += droppedItem.amount;
-
-				Debug.Log ("po: " + item.GetComponent<ItemData> ().amount);
 
 				item.GetChild(0).GetComponent<Text>().text = item.GetComponent<ItemData>().amount + "";
 
-				inv.items [droppedItem.slot] = new Item ();
+				inv.items [droppedItem.slotID] = new Item ();
 				inv.items [slotID] = droppedItem.item;
-				droppedItem.slot = slotID;
+				droppedItem.slotID = slotID;
 
 				foreach (Transform child in droppedItem.transform) {
 					GameObject.Destroy (child.gameObject);
@@ -51,15 +47,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 			} else {
 
-				item.GetComponent<ItemData> ().slot = droppedItem.slot;
-				item.transform.SetParent (inv.slots [droppedItem.slot].transform);
-				item.transform.position = inv.slots [droppedItem.slot].transform.position;
+				item.GetComponent<ItemData> ().slotID = droppedItem.slotID;
+				item.transform.SetParent (inv.slots [droppedItem.slotID].transform);
+				item.transform.position = inv.slots [droppedItem.slotID].transform.position;
 
-				droppedItem.slot = slotID;
+				droppedItem.slotID = slotID;
 				droppedItem.transform.SetParent (this.transform);
 				droppedItem.transform.position = this.transform.position;
 
-				inv.items [droppedItem.slot] = item.GetComponent<ItemData> ().item;
+				inv.items [droppedItem.slotID] = item.GetComponent<ItemData> ().item;
 				inv.items [slotID] = droppedItem.item;
 			}
 		}

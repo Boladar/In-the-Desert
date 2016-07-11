@@ -8,13 +8,9 @@ public class ItemDatabase : MonoBehaviour {
 	private List<Item> database = new List<Item>();
 	private JsonData itemData;
 
-	void Start()
-	{
+	void Start(){
 		itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
 		ConstructItemDatabase ();
-
-
-		Debug.Log (database [1].Title);
 	}
 
 	public Item GetItemByID(int id){

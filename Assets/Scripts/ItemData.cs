@@ -4,9 +4,10 @@ using UnityEngine.EventSystems;
 
 public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler {
 
+	public GameObject LooseItemPrefab;
 	public Item item;
 	public int amount;
-	public int slot;
+	public int slotID;
 
 	private Inventory inv;
 	private InventoryTooltip tooltip;
@@ -37,9 +38,29 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		this.transform.SetParent (inv.slots[slot].transform);
-		this.transform.position = inv.slots[slot].transform.position;
-		GetComponent<CanvasGroup> ().blocksRaycasts = true;
+		if (EventSystem.current.IsPointerOverGameObject ()) {
+			this.transform.SetParent (inv.slots [slotID].transform);
+			this.transform.position = inv.slots [slotID].transform.position;
+			GetComponent<CanvasGroup> ().blocksRaycasts = true;
+		} else {
+			Debug.Log ("drop");
+			ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+			inv.RemoveItem (slotID);
+
+			foreach (Transform child in droppedItem.transform) {
+				GameObject.Destroy (child.gameObject);
+			}
+			Destroy (droppedItem.gameObject);
+
+			GameObject player = GameObject.Find ("Character");
+			float height = player.GetComponent<BoxCollider2D> ().size.y;
+
+			GameObject looseGameObject = (GameObject) Instantiate (LooseItemPrefab, new Vector3 (player.transform.position.x, player.transform.position.y - height/2), Quaternion.identity);
+			LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
+			looseItem.item = item;
+			looseItem.amount = amount;
+			Destroy (this.transform);
+		}
 	}
 
 	public void OnPointerEnter (PointerEventData eventData)

@@ -33,7 +33,14 @@ public class Inventory : MonoBehaviour {
 		}
 
 		AddItem (0,15);
-		AddItem (1, 3);
+
+
+	}
+
+	public void RemoveItem(int slotID){
+
+		items.RemoveAt (slotID);
+		items.Insert (slotID, new Item ());
 
 	}
 
@@ -47,10 +54,10 @@ public class Inventory : MonoBehaviour {
 				GameObject itemObj = Instantiate (inventoryItem);
 
 				itemObj.GetComponent<ItemData> ().item = item;
-				itemObj.GetComponent<ItemData> ().slot = i;
+				itemObj.GetComponent<ItemData> ().slotID = i;
 
 				itemObj.transform.SetParent (slots [i].transform);
-				itemObj.transform.position = Vector2.zero;
+				itemObj.transform.localPosition = Vector2.zero;
 
 				itemObj.GetComponent<Image> ().sprite = item.Sprite;
 				itemObj.name = item.Title;
@@ -63,7 +70,6 @@ public class Inventory : MonoBehaviour {
 		Item item = database.GetItemByID(id);
 
 		if (!CheckForItemInInventory(item)) {
-			Debug.Log ("item is not in inventory");
 			ReserveItemSpace (id);
 		}
 		ItemData data = GetNotFullItemDataFromID (id);
@@ -88,7 +94,6 @@ public class Inventory : MonoBehaviour {
 	public ItemData GetNotFullItemDataFromID(int id){
 		//ItemData data;
 		for (int i = 0; i < items.Count; i++) {
-			Debug.Log ("get");
 			if (items [i].ID == id) {
 				ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
 				if (data.amount < items [i].MaxStackSize)
