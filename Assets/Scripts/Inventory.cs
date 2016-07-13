@@ -33,8 +33,8 @@ public class Inventory : MonoBehaviour {
 		}
 
 
-		AddItem (1, 10);
-		AddItem (0,15);
+		AddItem (1, 3);
+		AddItem (0, 1);
 
 	}
 
@@ -71,8 +71,10 @@ public class Inventory : MonoBehaviour {
 	public void AddItem(int id, int quantity){
 		Item item = database.GetItemByID(id);
 
-		if(GetNotFullItemDataFromID(id) == null)
+		if (GetNotFullItemDataFromID (id) == null)
 			ReserveItemSpace (id);
+		else
+			quantity += 1;
 
 		ItemData data = GetNotFullItemDataFromID (id);
 		if (item.MaxStackSize > 1) {

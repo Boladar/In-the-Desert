@@ -38,13 +38,16 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
+		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+
+		Debug.Log ("Itemdata ONENDDRAG - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: " + droppedItem.item.ID);
 		if (EventSystem.current.IsPointerOverGameObject ()) {
 			this.transform.SetParent (inv.slots [slotID].transform);
 			this.transform.position = inv.slots [slotID].transform.position;
 			GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		} else {
 			Debug.Log ("drop");
-			ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+			droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
 			inv.RemoveItem (slotID);
 
 			foreach (Transform child in droppedItem.transform) {
@@ -60,7 +63,10 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug);
 			looseItem.amount = this.amount;
 			Destroy (this.transform);
+
+			//Debug.Log ("Itemdata ONENDDRAG PO - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: ");
 		}
+		Debug.Log ("Itemdata ONENDDRAG PO - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: " + droppedItem.item.ID);
 	}
 
 	public void OnPointerEnter (PointerEventData eventData)
