@@ -51,11 +51,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				item.transform.SetParent (inv.slots [droppedItem.slotID].transform);
 				item.transform.position = inv.slots [droppedItem.slotID].transform.position;
 
+				inv.items [droppedItem.slotID] = item.GetComponent<ItemData> ().item;
+
 				droppedItem.slotID = slotID;
 				droppedItem.transform.SetParent (this.transform);
 				droppedItem.transform.position = this.transform.position;
 
-				inv.items [droppedItem.slotID] = item.GetComponent<ItemData> ().item;
 				inv.items [slotID] = droppedItem.item;
 			}
 		}
