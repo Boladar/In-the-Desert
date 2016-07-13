@@ -16,24 +16,14 @@ public class LooseItem : MonoBehaviour {
 		player = GameObject.Find ("Character");
 	}
 
-	/*void OnTriggerStay2D(Collider2D other){
-		if (other.gameObject.tag == "Player" && Input.GetKey (KeyCode.E)) {
-			Debug.Log ("pickup, ID: " + item.ID + ", amount: " + amount);
-			inv.AddItem (item.ID, amount);	
-			Destroy (this.gameObject);
-		}
-	}*/
-
 	void Update(){
-		RaycastHit2D hit = Physics2D.Raycast (transform.position, player.transform.position - this.transform.position, detectDistance, playerMask);
-		if (hit != null) {
-			player.GetComponent<LooseItemTooltip> ().Activate (item);	
 
-			if (Input.GetKey (KeyCode.E)) {
-				Debug.Log ("pickup, ID: " + item.ID + ", amount: " + amount);
-				inventory.AddItem (item.ID, amount);	
-				Destroy (this.gameObject);
-			}
+		float distanceToplayer = Vector2.Distance (this.transform.position, player.transform.position);
+
+		if (distanceToplayer <= detectDistance) {
+			player.GetComponent<LooseItemTooltip> ().AddNearbyItem(item, this.gameObject);
+		} else {
+			player.GetComponent<LooseItemTooltip> ().RemoveNearbyItem (item, this.gameObject);
 		}
 	}
 
