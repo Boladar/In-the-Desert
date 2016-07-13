@@ -4,7 +4,7 @@
 		"title": "test1",
 		"value": 6,
 		"description": "test1test1",
-		"maxStackSize": 64,
+		"maxStackSize": 4,
 		"slug": "test_1"
 	},
 	{
