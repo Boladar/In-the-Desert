@@ -32,7 +32,8 @@ public class Inventory : MonoBehaviour {
 			slots [i].transform.SetParent (slotPanel.transform);
 		}
 
-		AddItem (0,15);
+		AddItem (0,10);
+		AddItem (1, 5);
 
 
 	}
@@ -69,12 +70,11 @@ public class Inventory : MonoBehaviour {
 	public void AddItem(int id, int quantity){
 		Item item = database.GetItemByID(id);
 
-		if (!CheckForItemInInventory(item)) {
-			ReserveItemSpace (id);
-		}
+		ReserveItemSpace (id);
+
 		ItemData data = GetNotFullItemDataFromID (id);
 		if (item.MaxStackSize > 1) {
-			for (int j = 0; j <= quantity; j++) {
+			for (int j = 1; j < quantity; j++) {
 
 				if (data.amount < item.MaxStackSize) {
 					data.amount += 1;
@@ -94,12 +94,13 @@ public class Inventory : MonoBehaviour {
 	public ItemData GetNotFullItemDataFromID(int id){
 		//ItemData data;
 		for (int i = 0; i < items.Count; i++) {
-			if (items [i].ID == id) {
+			if (items[i].ID == id) {
 				ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
 				if (data.amount < items [i].MaxStackSize)
 					return data;
 			}
 		}
+		//Debug.LogError ("ITEM DATA IS NULL");
 		return null;
 	}
 

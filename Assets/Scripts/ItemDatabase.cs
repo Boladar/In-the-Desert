@@ -19,6 +19,7 @@ public class ItemDatabase : MonoBehaviour {
 			if (database [i].ID == id)
 				return database[i];
 		}
+		Debug.LogError ("DATABASE ID IS MISSING");
 		return null;
 	}
 

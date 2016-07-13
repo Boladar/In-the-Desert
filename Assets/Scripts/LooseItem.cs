@@ -14,10 +14,10 @@ public class LooseItem : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other){
 		if (other.gameObject.tag == "Player" && Input.GetKey (KeyCode.E)) {
+			Debug.Log ("pickup, ID: " + item.ID + ", amount: " + amount);
 			inv.AddItem (item.ID, amount);	
 			Destroy (this.gameObject);
 		}
 	}
-
-
+		
 }

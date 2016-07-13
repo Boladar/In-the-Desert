@@ -57,8 +57,8 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 			GameObject looseGameObject = (GameObject) Instantiate (LooseItemPrefab, new Vector3 (player.transform.position.x, player.transform.position.y - height/2), Quaternion.identity);
 			LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
-			looseItem.item = item;
-			looseItem.amount = amount;
+			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug);
+			looseItem.amount = this.amount;
 			Destroy (this.transform);
 		}
 	}
