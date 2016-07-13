@@ -26,22 +26,22 @@ public class LooseItemTooltip : MonoBehaviour {
 		if (nearbyItems.Count > 0) {
 			Activate ();
 			ConstructDataString ();
+
+			if (Input.GetKeyDown (KeyCode.E)) {
+				LooseItem li = currentGameObject.GetComponent<LooseItem> ();
+
+				Debug.Log ("pickup, ID: " + currentItem.ID + ", amount: " + li.amount);
+				inventory.AddItem (currentItem.ID, li.amount);
+				RemoveNearbyItem (currentItem,currentGameObject);
+				Destroy (currentGameObject);
+
+				ChangeCurrentItem ();
+			}
 		}
 		else
 			Deactivate();
 
 		if (Input.GetKeyDown(KeyCode.Q)) {
-			ChangeCurrentItem ();
-		}
-
-		if (Input.GetKeyDown (KeyCode.E)) {
-			LooseItem li = currentGameObject.GetComponent<LooseItem> ();
-
-			Debug.Log ("pickup, ID: " + currentItem.ID);
-			inventory.AddItem (currentItem.ID, li.amount);
-			RemoveNearbyItem (currentItem,currentGameObject);
-			Destroy (currentGameObject);
-
 			ChangeCurrentItem ();
 		}
 

@@ -12,7 +12,7 @@
 		"title": "test2",
 		"value": 12,
 		"description": "test2test2",
-		"maxStackSize": 1,
+		"maxStackSize": 8,
 		"slug": "test_2"
 	}
 ]
