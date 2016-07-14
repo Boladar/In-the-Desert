@@ -30,11 +30,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 
 			if (inv.items [slotID].ID == droppedItem.item.ID 
 				&& droppedItem.item.MaxStackSize > 1
-				&& item.GetComponent<ItemData> ().amount + droppedItem.amount <= droppedItem.item.MaxStackSize ) {
+				&& item.GetComponent<ItemData> ().Amount + droppedItem.Amount <= droppedItem.item.MaxStackSize ) {
 
-				item.GetComponent<ItemData> ().amount += droppedItem.amount;
+				item.GetComponent<ItemData> ().Amount += droppedItem.Amount;
 
-				item.GetChild(0).GetComponent<Text>().text = item.GetComponent<ItemData>().amount + "";
 
 				inv.items [droppedItem.slotID] = new Item ();
 				inv.items [slotID] = droppedItem.item;
