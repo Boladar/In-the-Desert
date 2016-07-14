@@ -108,7 +108,6 @@ public class Inventory : MonoBehaviour {
 					return data;
 			}
 		}
-		//Debug.LogError ("ITEM DATA IS NULL");
 		return null;
 	}
 

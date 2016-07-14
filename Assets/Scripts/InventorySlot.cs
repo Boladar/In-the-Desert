@@ -19,13 +19,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
 
 		if (inv.items [slotID].ID == -1) {
-			
+			//moving to free slot
 			inv.items [droppedItem.slotID] = new Item ();
 			inv.items [slotID] = droppedItem.item;
 			droppedItem.slotID = slotID;
 
 		}else if (droppedItem.slotID != slotID) {
-
+			// Adding items
 			Transform item = this.transform.GetChild (0);
 
 			if (inv.items [slotID].ID == droppedItem.item.ID 
@@ -46,7 +46,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				Destroy (droppedItem.gameObject);
 
 			} else {
-
+				//switching items
 				item.GetComponent<ItemData> ().slotID = droppedItem.slotID;
 				item.transform.SetParent (inv.slots [droppedItem.slotID].transform);
 				item.transform.position = inv.slots [droppedItem.slotID].transform.position;

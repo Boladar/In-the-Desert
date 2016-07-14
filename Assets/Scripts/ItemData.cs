@@ -23,7 +23,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		if (item != null) {
 
 			offset = eventData.position - new Vector2 (this.transform.position.x,this.transform.position.y);
-			this.transform.SetParent (this.transform.parent.parent);
+			this.transform.SetParent (this.transform.parent.parent.parent.parent);
 			this.transform.position = eventData.position;
 			GetComponent<CanvasGroup> ().blocksRaycasts = false;
 		}
@@ -38,35 +38,33 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
-
-		Debug.Log ("Itemdata ONENDDRAG - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: " + droppedItem.item.ID);
-		if (EventSystem.current.IsPointerOverGameObject ()) {
+		if (EventSystem.current.IsPointerOverGameObject()) {
 			this.transform.SetParent (inv.slots [slotID].transform);
 			this.transform.position = inv.slots [slotID].transform.position;
 			GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		} else {
-			Debug.Log ("drop");
-			droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
-			inv.RemoveItem (slotID);
-
-			foreach (Transform child in droppedItem.transform) {
-				GameObject.Destroy (child.gameObject);
-			}
-			Destroy (droppedItem.gameObject);
-
-			GameObject player = GameObject.Find ("Character");
-			float height = player.GetComponent<BoxCollider2D> ().size.y;
-
-			GameObject looseGameObject = (GameObject) Instantiate (LooseItemPrefab, new Vector3 (player.transform.position.x, player.transform.position.y - height/2), Quaternion.identity);
-			LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
-			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug);
-			looseItem.amount = this.amount;
-			Destroy (this.transform);
-
-			//Debug.Log ("Itemdata ONENDDRAG PO - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: ");
+			DropItem (eventData);
 		}
-		Debug.Log ("Itemdata ONENDDRAG PO - inv.items [slotID].ID: " + inv.items [slotID].ID + ", droppedItem.item.ID: " + droppedItem.item.ID);
+	}
+
+	void DropItem(PointerEventData eventData){
+		Debug.Log ("drop");
+		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+		inv.RemoveItem (slotID);
+
+		foreach (Transform child in droppedItem.transform) {
+			GameObject.Destroy (child.gameObject);
+		}
+		Destroy (droppedItem.gameObject);
+
+		GameObject player = GameObject.Find ("Character");
+		float height = player.GetComponent<BoxCollider2D> ().size.y;
+
+		GameObject looseGameObject = (GameObject) Instantiate (LooseItemPrefab, new Vector3 (player.transform.position.x, player.transform.position.y - height/2), Quaternion.identity);
+		LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
+		looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug);
+		looseItem.amount = this.amount;
+		Destroy (this.transform);
 	}
 
 	public void OnPointerEnter (PointerEventData eventData)
