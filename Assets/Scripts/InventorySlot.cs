@@ -19,22 +19,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 		ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
 
 		if (inv.items [slotID].ID == -1) {
-			
+			//moving to free slot
 			inv.items [droppedItem.slotID] = new Item ();
 			inv.items [slotID] = droppedItem.item;
 			droppedItem.slotID = slotID;
 
 		}else if (droppedItem.slotID != slotID) {
-
+			// Adding items
 			Transform item = this.transform.GetChild (0);
 
 			if (inv.items [slotID].ID == droppedItem.item.ID 
 				&& droppedItem.item.MaxStackSize > 1
-				&& item.GetComponent<ItemData> ().amount + droppedItem.amount <= droppedItem.item.MaxStackSize ) {
+				&& item.GetComponent<ItemData> ().Amount + droppedItem.Amount <= droppedItem.item.MaxStackSize ) {
 
-				item.GetComponent<ItemData> ().amount += droppedItem.amount;
+				item.GetComponent<ItemData> ().Amount += droppedItem.Amount;
 
-				item.GetChild(0).GetComponent<Text>().text = item.GetComponent<ItemData>().amount + "";
 
 				inv.items [droppedItem.slotID] = new Item ();
 				inv.items [slotID] = droppedItem.item;
@@ -46,16 +45,17 @@ public class InventorySlot : MonoBehaviour, IDropHandler {
 				Destroy (droppedItem.gameObject);
 
 			} else {
-
+				//switching items
 				item.GetComponent<ItemData> ().slotID = droppedItem.slotID;
 				item.transform.SetParent (inv.slots [droppedItem.slotID].transform);
 				item.transform.position = inv.slots [droppedItem.slotID].transform.position;
+
+				inv.items [droppedItem.slotID] = item.GetComponent<ItemData> ().item;
 
 				droppedItem.slotID = slotID;
 				droppedItem.transform.SetParent (this.transform);
 				droppedItem.transform.position = this.transform.position;
 
-				inv.items [droppedItem.slotID] = item.GetComponent<ItemData> ().item;
 				inv.items [slotID] = droppedItem.item;
 			}
 		}
