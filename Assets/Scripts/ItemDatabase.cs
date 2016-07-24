@@ -17,7 +17,16 @@ public class ItemDatabase : MonoBehaviour {
 
 		for (int i = 0; i < database.Count; i++) {
 			if (database [i].ID == id)
-				return database[i];
+				return database[i] as Item;
+		}
+		Debug.LogError ("DATABASE ID IS MISSING");
+		return null;
+	}
+	public Weapon GetWeaponByID(int id){
+
+		for (int i = 0; i < database.Count; i++) {
+			if (database [i].ID == id)
+				return database[i] as Weapon;
 		}
 		Debug.LogError ("DATABASE ID IS MISSING");
 		return null;
@@ -25,8 +34,16 @@ public class ItemDatabase : MonoBehaviour {
 
 	void ConstructItemDatabase(){
 		for (int i = 0; i < itemData.Count; i++) {
-			database.Add (new Item ( (int)itemData[i]["id"], (string)itemData[i]["title"], 
-				(int)itemData[i]["value"],(string)itemData[i]["description"],(int)itemData[i]["maxStackSize"], (string)itemData[i]["slug"]));
+
+			if ((int)itemData [i] ["id"] < 100) {
+				database.Add (new Item ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
+					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"], (string)itemData [i] ["slug"]));
+			} else {
+				database.Add (new Weapon ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
+					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
+					(string)itemData [i] ["slug"],(int)itemData[i]["ammoID"], (int)itemData[i]["range"], (int)itemData[i]["damage"]));
+			}
+					
 		}
 			
 	}
@@ -53,5 +70,25 @@ public class Item
 	}
 	public Item(){
 		this.ID = -1;
+	}
+}
+
+public class Weapon : Item
+{
+	public int AmmoID { get; set;}
+	public int Range { get; set;}
+	public int Damage { get; set;}
+
+	public Weapon(int id, string title, int value, string description, int maxStackSize, string slug, int ammoID, int range, int damage){
+		this.ID = id;
+		this.Title = title;
+		this.Value = value;
+		this.Description = description;
+		this.MaxStackSize = maxStackSize;
+		this.Slug = slug;
+		this.Sprite = Resources.Load<Sprite> ("Sprites/Items/" + slug);
+		this.AmmoID = ammoID;
+		this.Range = range;
+		this.Damage = damage;
 	}
 }

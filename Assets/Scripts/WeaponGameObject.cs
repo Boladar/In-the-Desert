@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : MonoBehaviour {
-
-	public float fireRate = 0;
-	public float Damage = 10;
+public class WeaponGameObject : MonoBehaviour {
+	
+	public float fireRate;
+	public float Damage;
 	public LayerMask whatHits;
 
 	public Transform BulletTrailPrefab;
@@ -35,14 +35,16 @@ public class Weapon : MonoBehaviour {
 			
 	}
 
+	void ChangeWeapon(int weaponID){
+		
+	}
+
 	void Shoot(){
 		Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 		Vector2 firePointPosition = new Vector2 (firePoint.position.x, firePoint.position.y);
 		RaycastHit2D hit = Physics2D.Raycast (firePointPosition, mousePosition - firePointPosition, 100, whatHits );
 
 		Vector2 direction = mousePosition - firePointPosition;
-
-
 
 		Effect();
 

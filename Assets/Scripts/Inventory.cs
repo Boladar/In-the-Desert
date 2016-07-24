@@ -15,6 +15,8 @@ public class Inventory : MonoBehaviour {
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
+	public Player player;
+
 	void Start(){
 		database = this.transform.GetComponent<ItemDatabase>();
 
@@ -24,6 +26,7 @@ public class Inventory : MonoBehaviour {
 
 		inventoryPanel = GameObject.Find ("InventoryPanel");
 		slotPanel = inventoryPanel.transform.FindChild ("SlotPanel").gameObject;
+		player = GameObject.Find ("Character").GetComponent<Player>();
 
 		for (int i = 0; i < slotAmount; i++) {
 			items.Add (new Item());
@@ -33,9 +36,27 @@ public class Inventory : MonoBehaviour {
 		}
 
 
-		AddItem (1, 3);
-		AddItem (0, 1);
+		AddItem (99, 3);
+		AddItem (98, 4);
+		AddItem (100, 1);
+		AddItem (101, 1);
 
+	}
+
+	public void EquipWeapon(int slotID, int WeaponID){
+		if (player.currentWeapon != null)
+			DeEquipWeapon (player.currentWeapon.ID);
+
+		RemoveItem (slotID);
+		player.currentWeapon = database.GetWeaponByID (WeaponID);
+
+		Debug.Log ("player.currentWeapon.id" + player.currentWeapon.ID);
+	}
+
+	public void DeEquipWeapon(int WeaponID)
+	{
+		ReserveItemSpace(WeaponID);
+		player.currentWeapon = null;
 	}
 
 	public void RemoveItem(int slotID){
@@ -48,27 +69,37 @@ public class Inventory : MonoBehaviour {
 	public void ReserveItemSpace(int id){
 		
 		Item item = database.GetItemByID(id);
+
 		for (int i = 0; i < items.Count; i++) {
 			if (items [i].ID == -1) {
 
-				items [i] = item;
 				GameObject itemObj = Instantiate (inventoryItem);
 
-				itemObj.GetComponent<ItemData> ().item = item;
-				itemObj.GetComponent<ItemData> ().slotID = i;
-				itemObj.GetComponent<ItemData> ().Amount = 1;
-
+				if (id >= 100) {
+					Weapon weapon = database.GetWeaponByID (id);
+					items [i] = weapon;
+					itemObj.GetComponent<ItemData> ().weapon = weapon;
+					itemObj.GetComponent<Image> ().sprite = weapon.Sprite;
+				} else {
+					items [i] = item;
+					itemObj.GetComponent<ItemData> ().Item = item;
+					itemObj.GetComponent<Image> ().sprite = item.Sprite;
+					itemObj.name = item.Title;
+				}
+					
 				itemObj.transform.SetParent (slots [i].transform);
 				itemObj.transform.localPosition = Vector2.zero;
-
-				itemObj.GetComponent<Image> ().sprite = item.Sprite;
-				itemObj.name = item.Title;
+				itemObj.GetComponent<ItemData> ().slotID = i;
+				itemObj.GetComponent<ItemData> ().Amount = 1;
 				return;
+
 			}
 		}
 	}
 
+
 	public void AddItem(int id, int quantity){
+
 		Item item = database.GetItemByID(id);
 
 		if (GetNotFullItemDataFromID (id) == null)

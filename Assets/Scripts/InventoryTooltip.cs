@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class InventoryTooltip : MonoBehaviour {
 
 	private Item item;
+	private Weapon weapon;
 	private string data;
 	private GameObject tooltip;
 
@@ -21,7 +22,13 @@ public class InventoryTooltip : MonoBehaviour {
 
 	public void Activate(Item item){
 		this.item = item;
-		ConstructDataString ();
+		ConstructItemDataString ();
+		tooltip.SetActive (true);
+	}
+
+	public void Activate(Weapon weapon){
+		this.weapon = weapon;
+		ConstructWeaponDataString ();
 		tooltip.SetActive (true);
 	}
 
@@ -29,8 +36,13 @@ public class InventoryTooltip : MonoBehaviour {
 		tooltip.SetActive (false);
 	}
 
-	public void ConstructDataString(){
-		data = "<color=#000000>" + item.Title + "</color> \n\n" + item.Description + "\n" + item.Value;
+	public void ConstructItemDataString(){
+		data = "<color=#000000>" + item.Title + "</color> \n\n" + item.Description + "\n" + item.Value + '\n';
+		tooltip.transform.GetChild (0).GetComponent<Text> ().text = data;
+	}
+
+	public void ConstructWeaponDataString(){
+		data = "<color=#000000>" + weapon.Title + "</color> \n\n" + weapon.Description + "\n" + weapon.Value + '\n' + "kupa";
 		tooltip.transform.GetChild (0).GetComponent<Text> ().text = data;
 	}
 }
