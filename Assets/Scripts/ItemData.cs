@@ -87,9 +87,10 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
 
 		if(item != null)
-			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug);
+			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug, item.Purpose);
 		if (weapon != null)
-			looseItem.weapon = new Weapon (weapon.ID, weapon.Title, weapon.Value, weapon.Description, weapon.MaxStackSize, weapon.Slug, weapon.AmmoID, weapon.Range, weapon.Damage);
+			looseItem.weapon = new Weapon (weapon.ID, weapon.Title, weapon.Value, weapon.Description, weapon.MaxStackSize,
+				weapon.Slug, weapon.Purpose, weapon.AmmoID, weapon.Range, weapon.Damage);
 		looseItem.amount = this.Amount;
 		Destroy (this.transform);
 	}
