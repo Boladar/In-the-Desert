@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour {
 			slots [i].transform.SetParent (slotPanel.transform);
 		}
 
-
+		AddItem (1, 10);
 		AddItem (99, 3);
 		AddItem (98, 4);
 		AddItem (100, 1);
@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour {
 		if (player.currentWeapon != null)
 			DeEquipWeapon (player.currentWeapon.ID);
 
-		RemoveItem (slotID);
+		RemoveItem(slotID);
 		player.currentWeapon = database.GetWeaponByID (WeaponID);
 
 		Debug.Log ("player.currentWeapon.id" + player.currentWeapon.ID);
@@ -129,6 +129,16 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
+	public ItemData GetItemDataFromID(int id){
+		for (int i = 0; i < items.Count; i++) {
+			if (items [i].ID == id) {
+				ItemData data = slots [i].transform.GetChild (0).GetComponent<ItemData> ();
+				return data;
+			}
+		}
+		return null;
+	}
+		
 	public ItemData GetNotFullItemDataFromID(int id){
 		
 		for (int i = 0; i < items.Count; i++) {
@@ -141,9 +151,17 @@ public class Inventory : MonoBehaviour {
 		return null;
 	}
 
-	bool CheckForItemInInventory(Item item){
+	public bool CheckForItemInInventory(Item item){
 		for (int i = 0; i < items.Count; i++) {
 			if (items[i].ID == item.ID)
+				return true;
+		}
+		return false;
+	}
+
+	public bool CheckForItemInInventory(int itemID){
+		for (int i = 0; i < items.Count; i++) {
+			if (items[i].ID == itemID)
 				return true;
 		}
 		return false;

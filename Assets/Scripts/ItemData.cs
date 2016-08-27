@@ -116,7 +116,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnPointerClick (PointerEventData eventData)
 	{
-		if (eventData.button == PointerEventData.InputButton.Right) {
+		if (eventData.button == PointerEventData.InputButton.Right && weapon != null) {
 			inventory.EquipWeapon (this.slotID, this.weapon.ID);
 			DestroyItemDataObject (this);
 			Destroy (this.transform);

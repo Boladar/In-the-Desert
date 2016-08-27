@@ -1,5 +1,13 @@
 [
 	{
+		"id": 1,
+		"title": "ammo1",
+		"value": 6,
+		"description": "ammo",
+		"maxStackSize": 12,
+		"slug": "ammo_1"
+	},
+	{
 		"id": 99,
 		"title": "test1",
 		"value": 6,
