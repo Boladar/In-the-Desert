@@ -4,7 +4,7 @@ using LitJson;
 using System.Collections.Generic;
 using System.IO;
 
-public enum ItemPurpose{USAGE, EQUIP, WEAR};
+public enum ItemType{AMMO, USABLE, WEAPON, ARMOUR };
 public enum ArmourSlot{HEAD, BODY, FEETS, HANDS};
 
 public class ItemDatabase : MonoBehaviour {
@@ -39,21 +39,25 @@ public class ItemDatabase : MonoBehaviour {
 	void ConstructItemDatabase(){
 		for (int i = 0; i < itemData.Count; i++) {
 
-			int p = (int)itemData [i] ["purpose"];
+			int typeINT = (int)itemData [i] ["type"];
 
 			if ((int)itemData [i] ["id"] < 100) {
 				database.Add (new Item ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
 					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
-					(string)itemData [i] ["slug"], (ItemPurpose)p));
+					(string)itemData [i] ["slug"], (ItemType)typeINT));
+				
 			} else if ((int)itemData [i] ["id"] > 100 && (int)itemData [i] ["id"] < 200) {
 				database.Add (new Weapon ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
 					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
-					(string)itemData [i] ["slug"], (ItemPurpose)p,
+					(string)itemData [i] ["slug"], (ItemType)typeINT,
 					(int)itemData [i] ["ammoID"], (int)itemData [i] ["range"], (int)itemData [i] ["damage"]));
+				
 			} else if ((int)itemData [i] ["id"] > 200 && (int)itemData [i] ["id"] < 300) {
+				int slotINT = (int)itemData [i] ["slot"];
+
 				database.Add (new Armour ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
 					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
-					(string)itemData [i] ["slug"], (ItemPurpose)p, (int)itemData[i]["defence"], (int)itemData[i]["durability"]));
+					(string)itemData [i] ["slug"], (ItemType)typeINT, (int)itemData[i]["defence"], (int)itemData[i]["durability"], (ArmourSlot)slotINT));
 			}
 					
 		}
@@ -71,9 +75,9 @@ public class Item
 	public int MaxStackSize { get; set;}
 	public string Slug { get; set;}
 	public Sprite Sprite { get; set;}
-	public ItemPurpose Purpose { get; set;}
+	public ItemType Type { get; set;}
 
-	public Item(int id, string title, int value, string description, int maxStackSize, string slug, ItemPurpose purpose){
+	public Item(int id, string title, int value, string description, int maxStackSize, string slug, ItemType type){
 		this.ID = id;
 		this.Title = title;
 		this.Value = value;
@@ -81,7 +85,7 @@ public class Item
 		this.MaxStackSize = maxStackSize;
 		this.Slug = slug;
 		this.Sprite = Resources.Load<Sprite> ("Sprites/Items/" + slug);
-		this.Purpose = purpose;
+		this.Type = type;
 	}
 	public Item(){
 		this.ID = -1;
@@ -94,7 +98,7 @@ public class Weapon : Item
 	public int Range { get; set;}
 	public int Damage { get; set;}
 
-	public Weapon(int id, string title, int value, string description, int maxStackSize, string slug,ItemPurpose purpose , int ammoID, int range, int damage){
+	public Weapon(int id, string title, int value, string description, int maxStackSize, string slug,ItemType type , int ammoID, int range, int damage){
 		this.ID = id;
 		this.Title = title;
 		this.Value = value;
@@ -102,7 +106,7 @@ public class Weapon : Item
 		this.MaxStackSize = maxStackSize;
 		this.Slug = slug;
 		this.Sprite = Resources.Load<Sprite> ("Sprites/Items/" + slug);
-		this.Purpose = purpose;
+		this.Type = type;
 		this.AmmoID = ammoID;
 		this.Range = range;
 		this.Damage = damage;
@@ -113,8 +117,9 @@ public class Armour : Item
 {
 	public int Defence{ get; set;}
 	public int Durability{ get; set;}
+	public ArmourSlot Slot { get; set;}
 
-	public Armour(int id, string title, int value, string description, int maxStackSize, string slug, ItemPurpose purpose, int defence, int durability){
+	public Armour(int id, string title, int value, string description, int maxStackSize, string slug, ItemType type, int defence, int durability, ArmourSlot slot){
 		this.ID = id;
 		this.Title = title;
 		this.Value = value;
@@ -122,9 +127,10 @@ public class Armour : Item
 		this.MaxStackSize = maxStackSize;
 		this.Slug = slug;
 		this.Sprite = Resources.Load<Sprite> ("Sprites/Items/" + slug);
-		this.Purpose = purpose;
+		this.Type = type;
 		this.Defence = defence;
 		this.Durability = durability;
+		this.Slot = slot;
 	}
 
 }

@@ -68,25 +68,8 @@ public class LooseItemTooltip : MonoBehaviour {
 		}
 	}
 
-	public void AddNearbyWeapon(Weapon weapon, GameObject itemGameObject){
-		if (!nearbyItems.Contains (weapon)) {
-			nearbyItems.Add (weapon);
-			currentItem = weapon;
-		}
-
-		if (!nearbyGameObjects.Contains (itemGameObject)) {
-			nearbyGameObjects.Add (itemGameObject);
-			currentGameObject = itemGameObject;
-		}
-	}
-
 	public void RemoveNearbyItem(Item item, GameObject itemGameObject){
 		nearbyItems.Remove (item);
-		nearbyGameObjects.Remove (itemGameObject);
-	}
-
-	public void RemoveNearbyWeapon(Weapon weapon, GameObject itemGameObject){
-		nearbyItems.Remove (weapon);
 		nearbyGameObjects.Remove (itemGameObject);
 	}
 

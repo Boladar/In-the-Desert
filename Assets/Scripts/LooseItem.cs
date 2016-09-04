@@ -4,8 +4,6 @@ using System.Collections;
 public class LooseItem : MonoBehaviour {
 
 	public Item item;
-	public Weapon weapon;
-	public Armour armour;
 
 	public int amount;
 	public float detectDistance;
@@ -26,13 +24,9 @@ public class LooseItem : MonoBehaviour {
 		if (distanceToplayer <= detectDistance) {
 			if(item != null)
 				player.GetComponent<LooseItemTooltip> ().AddNearbyItem(item, this.gameObject);
-			else
-				player.GetComponent<LooseItemTooltip> ().AddNearbyWeapon(weapon, this.gameObject);
 		} else {
 			if(item != null)
 				player.GetComponent<LooseItemTooltip> ().RemoveNearbyItem (item, this.gameObject);
-			else
-				player.GetComponent<LooseItemTooltip> ().RemoveNearbyWeapon (weapon, this.gameObject);
 		}
 	}
 

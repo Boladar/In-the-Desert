@@ -6,7 +6,7 @@
 		"description": "ammo",
 		"maxStackSize": 12,
 		"slug": "ammo_1",
-		"purpose": 1
+		"type": 0
 	},
 	{
 		"id": 2,
@@ -14,17 +14,8 @@
 		"value": 6,
 		"description": "ammo",
 		"maxStackSize": 24,
-		"slug": "ammo_1",
-		"purpose": 1
-	},
-	{
-		"id": 99,
-		"title": "test1",
-		"value": 6,
-		"description": "test1test1",
-		"maxStackSize": 4,
-		"slug": "test_1",
-		"purpose": 1
+		"slug": "ammo_type",
+		"type": 0
 	},
 	{
 		"id": 98,
@@ -33,28 +24,37 @@
 		"description": "test1test1",
 		"maxStackSize": 4,
 		"slug": "test_1",
-		"purpose": 1
+		"type": 1
 	},
 	{
-		"id": 100,
+		"id": 99,
+		"title": "test1",
+		"value": 6,
+		"description": "test1test1",
+		"maxStackSize": 4,
+		"slug": "test_1",
+		"type": 1
+	},
+	{
+		"id": 101,
 		"title": "bron1",
 		"value": 12,
 		"description": "bron1",
 		"maxStackSize": 1,
 		"slug": "test_2",
-		"purpose": 1,
+		"type": 2,
 		"ammoID": 1,
 		"range": 25,
 		"damage": 10
 	},
 	{
-		"id": 101,
+		"id": 102,
 		"title": "bron2",
 		"value": 24,
 		"description": "bron2",
 		"maxStackSize": 1,
 		"slug": "test_2",
-		"purpose": 1,
+		"type": 2,
 		"ammoID": 2,
 		"range": 10,
 		"damage": 2
@@ -66,8 +66,9 @@
 		"description": "zbroja1",
 		"maxStackSize": 1,
 		"slug": "zbroja_1",
-		"purpose": 1,
+		"type": 3,
 		"defence": 1,
-		"durability": 10
+		"durability": 10,
+		"slot": 0
 	}
 ]

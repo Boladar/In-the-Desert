@@ -36,18 +36,21 @@ public class Inventory : MonoBehaviour {
 		}
 
 		AddItem (1, 10);
+		AddItem (2, 10);
 		AddItem (99, 3);
 		AddItem (98, 4);
-		AddItem (100, 1);
 		AddItem (101, 1);
+		AddItem (102, 1);
+		AddItem (201, 1);
 
 	}
 
 	public void EquipWeapon(int slotID, int WeaponID){
+		RemoveItem(slotID);
+
 		if (player.currentWeapon != null)
 			DeEquipWeapon (player.currentWeapon.ID);
-
-		RemoveItem(slotID);
+		
 		player.currentWeapon = database.GetWeaponByID (WeaponID);
 
 		Debug.Log ("player.currentWeapon.id" + player.currentWeapon.ID);
@@ -75,18 +78,11 @@ public class Inventory : MonoBehaviour {
 
 				GameObject itemObj = Instantiate (inventoryItem);
 
-				if (id >= 100) {
-					Weapon weapon = database.GetWeaponByID (id);
-					items [i] = weapon;
-					itemObj.GetComponent<ItemData> ().weapon = weapon;
-					itemObj.GetComponent<Image> ().sprite = weapon.Sprite;
-				} else {
-					items [i] = item;
-					itemObj.GetComponent<ItemData> ().Item = item;
-					itemObj.GetComponent<Image> ().sprite = item.Sprite;
-					itemObj.name = item.Title;
-				}
-					
+				items [i] = item;
+				itemObj.GetComponent<ItemData> ().Item = item;
+				itemObj.GetComponent<Image> ().sprite = item.Sprite;
+				itemObj.name = item.Title;
+
 				itemObj.transform.SetParent (slots [i].transform);
 				itemObj.transform.localPosition = Vector2.zero;
 				itemObj.GetComponent<ItemData> ().slotID = i;
@@ -96,8 +92,7 @@ public class Inventory : MonoBehaviour {
 			}
 		}
 	}
-
-
+		
 	public void AddItem(int id, int quantity){
 
 		Item item = database.GetItemByID(id);
