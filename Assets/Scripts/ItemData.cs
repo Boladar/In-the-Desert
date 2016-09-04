@@ -18,8 +18,10 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			this.amount = value; 
 			UpdateCounter ();
 
-			if (this.amount == 0)
+			if (this.amount == 0) {
+				inventory.RemoveItem (this.slotID);
 				DestroyItemDataObject (this);
+			}
 		}
 	}
 	
