@@ -5,6 +5,7 @@ public class LooseItem : MonoBehaviour {
 
 	public Item item;
 	public Weapon weapon;
+	public Armour armour;
 
 	public int amount;
 	public float detectDistance;

@@ -10,7 +10,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	private Item item;
 	public Item Item {
 		get {
-			if (item == null)
+			if (item == null && weapon != null)
 				return weapon as Item;
 			else
 				return item;
@@ -18,6 +18,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		set{ item = value;}
 	}	
 	public Weapon weapon;
+	public Armour armour;
 
 	private int amount;
 	public int Amount { 
@@ -86,11 +87,17 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		GameObject looseGameObject = (GameObject) Instantiate (LooseItemPrefab, new Vector3 (player.transform.position.x, player.transform.position.y - height/2), Quaternion.identity);
 		LooseItem looseItem = looseGameObject.GetComponent<LooseItem>();
 
-		if(item != null)
-			looseItem.item = new Item(item.ID,item.Title,item.Value,item.Description,item.MaxStackSize,item.Slug, item.Purpose);
-		if (weapon != null)
+		if (item != null) {
+			looseItem.item = new Item (item.ID, item.Title, item.Value, item.Description, item.MaxStackSize, item.Slug, item.Purpose);
+		}
+		if (weapon != null) {
 			looseItem.weapon = new Weapon (weapon.ID, weapon.Title, weapon.Value, weapon.Description, weapon.MaxStackSize,
 				weapon.Slug, weapon.Purpose, weapon.AmmoID, weapon.Range, weapon.Damage);
+		}
+		if (armour != null) {
+			;	//looseItem
+		}
+		
 		looseItem.amount = this.Amount;
 		Destroy (this.transform);
 	}

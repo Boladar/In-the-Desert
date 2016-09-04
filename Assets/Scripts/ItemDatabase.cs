@@ -4,7 +4,8 @@ using LitJson;
 using System.Collections.Generic;
 using System.IO;
 
-public enum ItemPurpose{USAGE, EQUIP};
+public enum ItemPurpose{USAGE, EQUIP, WEAR};
+public enum ArmourSlot{HEAD, BODY, FEETS, HANDS};
 
 public class ItemDatabase : MonoBehaviour {
 	
@@ -44,11 +45,15 @@ public class ItemDatabase : MonoBehaviour {
 				database.Add (new Item ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
 					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
 					(string)itemData [i] ["slug"], (ItemPurpose)p));
-			} else {
+			} else if ((int)itemData [i] ["id"] > 100 && (int)itemData [i] ["id"] < 200) {
 				database.Add (new Weapon ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
 					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
-					(string)itemData [i] ["slug"],(ItemPurpose)p,
-					(int)itemData[i]["ammoID"], (int)itemData[i]["range"], (int)itemData[i]["damage"]));
+					(string)itemData [i] ["slug"], (ItemPurpose)p,
+					(int)itemData [i] ["ammoID"], (int)itemData [i] ["range"], (int)itemData [i] ["damage"]));
+			} else if ((int)itemData [i] ["id"] > 200 && (int)itemData [i] ["id"] < 300) {
+				database.Add (new Armour ((int)itemData [i] ["id"], (string)itemData [i] ["title"], 
+					(int)itemData [i] ["value"], (string)itemData [i] ["description"], (int)itemData [i] ["maxStackSize"],
+					(string)itemData [i] ["slug"], (ItemPurpose)p, (int)itemData[i]["defence"], (int)itemData[i]["durability"]));
 			}
 					
 		}
@@ -102,4 +107,24 @@ public class Weapon : Item
 		this.Range = range;
 		this.Damage = damage;
 	}
+}
+
+public class Armour : Item
+{
+	public int Defence{ get; set;}
+	public int Durability{ get; set;}
+
+	public Armour(int id, string title, int value, string description, int maxStackSize, string slug, ItemPurpose purpose, int defence, int durability){
+		this.ID = id;
+		this.Title = title;
+		this.Value = value;
+		this.Description = description;
+		this.MaxStackSize = maxStackSize;
+		this.Slug = slug;
+		this.Sprite = Resources.Load<Sprite> ("Sprites/Items/" + slug);
+		this.Purpose = purpose;
+		this.Defence = defence;
+		this.Durability = durability;
+	}
+
 }
