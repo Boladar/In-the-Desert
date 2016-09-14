@@ -26,8 +26,10 @@ public class EquipmentPanelController : MonoBehaviour{
 
 		ArmourSlots.Add (ArmourSlot.HANDS, Instantiate (ArmourSlotPrefab));
 		ArmourSlots [ArmourSlot.HANDS].transform.SetParent (this.transform);
-
-
+		
 	}
 
+	public bool CheckForArmourType(ItemData data, GameObject){
+		
+	}
 }

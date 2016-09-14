@@ -11,6 +11,10 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler {
 	private ItemData currentItemData;
 
 	public void OnDrop (PointerEventData eventData){
+		//check if it's a proper type
+
+
+
 		currentItemData = eventData.pointerDrag.GetComponent<ItemData>();
 		GameObject itemObj = Instantiate (EquipmentItemPrefab);
 
