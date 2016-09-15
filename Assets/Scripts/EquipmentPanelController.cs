@@ -26,20 +26,13 @@ public class EquipmentPanelController : MonoBehaviour{
 
 		ArmourSlots.Add (ArmourSlot.HANDS, Instantiate (ArmourSlotPrefab));
 		ArmourSlots [ArmourSlot.HANDS].transform.SetParent (this.transform);
-		
-<<<<<<< HEAD
-	}
 
-	public bool CheckForArmourType(ItemData data, GameObject){
-		
-	}
-=======
-		WeaponSlots.Add(Instantiate(WeaponSlotPrefab));
+		WeaponSlots.Add (Instantiate (WeaponSlotPrefab));
 		WeaponSlots[0].transform.SetParent(this.transform);
 	}
-	
+
 	public bool CheckForArmourType(ItemData data, GameObject armourObject ){
-		Armour armour = data as Armour;
+		Armour armour = data.Item as Armour;
 		GameObject ArmourSlot = GetArmourSlot( armour.Slot);
 		
 		if(ArmourSlot.Equals(armourObject))
@@ -49,7 +42,12 @@ public class EquipmentPanelController : MonoBehaviour{
 	}
 	
 	public GameObject GetArmourSlot(ArmourSlot slot){
-		return ArmourSlots.TryGetValue(slot);
+		GameObject value;
+		if (ArmourSlots.TryGetValue (slot, out value)) {
+			return value;
+		}
+
+		Debug.LogError("EquipmentPanelController - Get Armour Slot, no value for armour slot");
+		return null;
 	}
->>>>>>> origin/WeaponsAndAmmo
 }

@@ -9,24 +9,31 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler {
 	public GameObject itemObj;
 
 	private ItemData currentItemData;
+	private EquipmentPanelController panelController;
+
+	void Start(){
+		panelController = GameObject.Find ("EquipmentPanel").GetComponent<EquipmentPanelController>();
+	}
 
 	public void OnDrop (PointerEventData eventData){
 		//check if it's a proper type
 
-
-
 		currentItemData = eventData.pointerDrag.GetComponent<ItemData>();
-		GameObject itemObj = Instantiate (EquipmentItemPrefab);
 
-		this.itemObj = itemObj;
+		if (panelController.CheckForArmourType (currentItemData, this.gameObject)) {
 
-		itemObj.GetComponent<EquipmentItem> ().data = currentItemData;
-		itemObj.transform.GetChild (0).GetComponent<Text> ().text = currentItemData.Amount.ToString ();
+			GameObject itemObj = Instantiate (EquipmentItemPrefab);
 
-		itemObj.transform.SetParent (this.transform);
-		itemObj.transform.localPosition = Vector2.zero;
+			this.itemObj = itemObj;
 
-		itemObj.GetComponent<Image> ().sprite = currentItemData.Item.Sprite;
-		itemObj.name = currentItemData.Item.Title;
+			itemObj.GetComponent<EquipmentItem> ().data = currentItemData;
+			itemObj.transform.GetChild (0).GetComponent<Text> ().text = currentItemData.Amount.ToString ();
+
+			itemObj.transform.SetParent (this.transform);
+			itemObj.transform.localPosition = Vector2.zero;
+
+			itemObj.GetComponent<Image> ().sprite = currentItemData.Item.Sprite;
+			itemObj.name = currentItemData.Item.Title;
+		}
 	}
 }
