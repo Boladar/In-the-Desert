@@ -68,8 +68,8 @@ public class LooseItemTooltip : MonoBehaviour {
 		}
 	}
 
-	public void RemoveNearbyItem(Item Item, GameObject itemGameObject){
-		nearbyItems.Remove (Item);
+	public void RemoveNearbyItem(Item item, GameObject itemGameObject){
+		nearbyItems.Remove (item);
 		nearbyGameObjects.Remove (itemGameObject);
 	}
 

@@ -32,7 +32,6 @@ public class HotKeyItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 		Destroy (this.gameObject);
 	}
 		
-
 	public void UseItem(){
 		if (data != null)
 			data.Amount -= 1;

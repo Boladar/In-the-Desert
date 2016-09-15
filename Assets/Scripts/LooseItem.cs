@@ -4,6 +4,7 @@ using System.Collections;
 public class LooseItem : MonoBehaviour {
 
 	public Item item;
+
 	public int amount;
 	public float detectDistance;
 	public LayerMask playerMask;
@@ -21,9 +22,11 @@ public class LooseItem : MonoBehaviour {
 		float distanceToplayer = Vector2.Distance (this.transform.position, player.transform.position);
 
 		if (distanceToplayer <= detectDistance) {
-			player.GetComponent<LooseItemTooltip> ().AddNearbyItem(item, this.gameObject);
+			if(item != null)
+				player.GetComponent<LooseItemTooltip> ().AddNearbyItem(item, this.gameObject);
 		} else {
-			player.GetComponent<LooseItemTooltip> ().RemoveNearbyItem (item, this.gameObject);
+			if(item != null)
+				player.GetComponent<LooseItemTooltip> ().RemoveNearbyItem (item, this.gameObject);
 		}
 	}
 

@@ -30,8 +30,8 @@ public class HotKeySlot : MonoBehaviour, IDropHandler{
 		itemObj.transform.SetParent (this.transform);
 		itemObj.transform.localPosition = Vector2.zero;
 
-		itemObj.GetComponent<Image> ().sprite = currentItemData.item.Sprite;
-		itemObj.name = currentItemData.item.Title;
+		itemObj.GetComponent<Image> ().sprite = currentItemData.Item.Sprite;
+		itemObj.name = currentItemData.Item.Title;
 
 	}
 

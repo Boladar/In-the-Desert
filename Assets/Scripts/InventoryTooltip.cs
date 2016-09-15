@@ -21,7 +21,16 @@ public class InventoryTooltip : MonoBehaviour {
 
 	public void Activate(Item item){
 		this.item = item;
-		ConstructDataString ();
+
+		switch (item.Type) {
+		case ItemType.WEAPON:
+			ConstructWeaponDataString ();
+			break;
+		default:
+			ConstructItemDataString ();
+			break;
+		}
+
 		tooltip.SetActive (true);
 	}
 
@@ -29,8 +38,14 @@ public class InventoryTooltip : MonoBehaviour {
 		tooltip.SetActive (false);
 	}
 
-	public void ConstructDataString(){
-		data = "<color=#000000>" + item.Title + "</color> \n\n" + item.Description + "\n" + item.Value;
+	public void ConstructItemDataString(){
+		data = "<color=#000000>" + item.Title + "</color> \n\n" + item.Description + "\n" + item.Value + '\n';
+		tooltip.transform.GetChild (0).GetComponent<Text> ().text = data;
+	}
+
+	public void ConstructWeaponDataString(){
+		Weapon weapon = item as Weapon;
+		data = "<color=#000000>" + weapon.Title + "</color> \n\n" + weapon.Description + "\n" + weapon.Value + '\n' + "weapon ammo id" + weapon.AmmoID;
 		tooltip.transform.GetChild (0).GetComponent<Text> ().text = data;
 	}
 }
